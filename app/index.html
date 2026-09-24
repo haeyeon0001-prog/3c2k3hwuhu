@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>韓国語 料理編 復習</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#8C3A5E">
+<style>
+:root{
+  --ink:#39383E; --mid:#6E6670; --line:#EBDDE4;
+  --plum:#8C3A5E; --rose:#A04A73; --mauve:#BE7E9F;
+  --blush:#F7EDF2; --gray:#F4F1F3; --bg:#fff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.6;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+.ko{font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;word-break:keep-all}
+header{position:sticky;top:0;z-index:10;background:var(--plum);color:#fff;
+  padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+header h1{margin:0;font-size:1rem;font-weight:700;letter-spacing:.02em}
+header .sub{font-size:.75rem;opacity:.85;margin-top:1px}
+main{max-width:640px;margin:0 auto;padding:14px 16px 24px}
+
+/* 課えらび */
+.picker{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;margin:0 -16px 14px;
+  scrollbar-width:none}
+.picker::-webkit-scrollbar{display:none}
+.picker button{flex:0 0 auto;min-width:44px;height:44px;border-radius:12px;border:1px solid var(--line);
+  background:#fff;color:var(--plum);font-size:.95rem;font-weight:700;font-family:inherit}
+.picker button[aria-pressed="true"]{background:var(--plum);color:#fff;border-color:var(--plum)}
+.lessonhead{background:var(--gray);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+.lessonhead .t{font-weight:700;font-size:1rem}
+.lessonhead .d{color:var(--mid);font-size:.82rem;margin-top:2px}
+.lessonhead a{display:inline-block;margin-top:8px;background:var(--plum);color:#fff;
+  text-decoration:none;border-radius:999px;padding:7px 16px;font-size:.84rem;font-weight:700}
+
+/* カード */
+.card{border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px;background:#fff}
+.card.q{text-align:center;padding:26px 16px}
+.card .w{font-size:1.5rem;font-weight:700;color:var(--plum);line-height:1.35}
+.card .m{font-size:1.05rem;margin-top:6px}
+.card .pos{display:inline-block;font-size:.7rem;color:var(--mid);border:1px solid var(--line);
+  border-radius:6px;padding:0 6px;margin-left:8px;vertical-align:middle}
+.card .ex{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:.92rem}
+.card .ex .jp{color:var(--mid);font-size:.82rem;margin-top:2px}
+.hidden{display:none}
+.tapnote{color:var(--mid);font-size:.8rem;margin-top:14px}
+
+/* ボタン */
+.row{display:flex;gap:10px;margin-top:14px}
+.btn{flex:1;border:0;border-radius:12px;padding:14px;font-size:.95rem;font-weight:700;
+  font-family:inherit;background:var(--gray);color:var(--ink)}
+.btn.primary{background:var(--plum);color:#fff}
+.btn.ok{background:var(--plum);color:#fff}
+.btn.again{background:var(--blush);color:var(--plum)}
+.btn:active{opacity:.8}
+.toggle{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 12px}
+.toggle button{flex:1;border:0;background:#fff;padding:11px;font-size:.86rem;font-weight:700;
+  font-family:inherit;color:var(--mid)}
+.toggle button[aria-pressed="true"]{background:var(--blush);color:var(--plum)}
+
+/* 進捗 */
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:0 0 16px}
+.stat{background:var(--gray);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.3rem;color:var(--plum)}
+.stat span{font-size:.72rem;color:var(--mid)}
+.bar{height:8px;border-radius:999px;background:var(--gray);overflow:hidden;margin:0 0 6px}
+.bar i{display:block;height:100%;background:var(--mauve)}
+
+/* 確認タブ */
+.sec{margin:0 0 18px}
+.sec h2{font-size:.82rem;color:var(--plum);margin:0 0 8px;letter-spacing:.04em}
+.g .form{font-weight:700;color:var(--plum);font-size:1.05rem}
+.g .label{font-size:.8rem;color:var(--mid);margin-top:2px}
+.g .say{font-size:.88rem;margin-top:6px}
+.g .ex{margin-top:8px;font-size:.92rem}
+.g .ex div{margin-top:4px}
+.g .ex .jp{color:var(--mid);font-size:.8rem}
+.p .name{font-weight:700;color:var(--plum);font-size:.95rem}
+.p .how{font-size:.85rem;margin-top:4px}
+.p .exs{margin-top:6px;font-size:.95rem}
+.p .exs .r{color:var(--mid);font-size:.82rem}
+.d .blank{font-size:1.05rem}
+.d .ans{color:var(--plum);font-weight:700;margin-top:6px;font-size:.95rem}
+
+/* タブ */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;background:#fff;
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;padding:10px 4px 12px;font-family:inherit;
+  font-size:.72rem;color:var(--mid);font-weight:700}
+nav button[aria-pressed="true"]{color:var(--plum)}
+nav button i{display:block;font-size:1.25rem;font-style:normal;margin-bottom:2px}
+.empty{text-align:center;color:var(--mid);padding:40px 20px;font-size:.9rem}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="apptitle">韓国語 料理編</h1>
+  <div class="sub" id="appsub">復習と確認</div>
+</header>
+<main id="view"><div class="empty">読み込み中…</div></main>
+<nav>
+  <button data-tab="review" aria-pressed="true"><i>↻</i>復習</button>
+  <button data-tab="words" aria-pressed="false"><i>あ</i>ことば</button>
+  <button data-tab="check" aria-pressed="false"><i>✓</i>確認</button>
+</nav>
+
+<script>
+const S = {
+  data:null, tab:'review', lesson:1, dir:'ko2jp',
+  queue:[], idx:0, shown:false
+};
+const LS = {
+  get(k,d){ try{ const v=localStorage.getItem('krcook.'+k); return v?JSON.parse(v):d }catch(e){ return d } },
+  set(k,v){ try{ localStorage.setItem('krcook.'+k, JSON.stringify(v)) }catch(e){} }
+};
+let box = LS.get('box', {});      // "1:김치" -> 0..4
+let upto = LS.get('upto', 12);    // 学習中の課（ここまでを復習に出す）
+
+const $ = (h)=>{ const t=document.createElement('template'); t.innerHTML=h.trim(); return t.content };
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const key = (n,ko)=> n+':'+ko;
+const allWords = ()=> S.data.lessons.flatMap(l=>l.vocab.map(w=>({...w, n:l.n})));
+
+/* ---------- 復習 ---------- */
+function buildQueue(){
+  const pool = allWords().filter(w=>w.n<=upto);
+  const scored = pool.map(w=>({w, b: box[key(w.n,w.ko)] ?? 0}));
+  scored.sort((a,b)=> a.b-b.b || Math.random()-0.5);
+  S.queue = scored.slice(0,10).map(x=>x.w);
+  S.idx=0; S.shown=false;
+}
+function answer(ok){
+  const w = S.queue[S.idx]; const k = key(w.n,w.ko);
+  box[k] = ok ? Math.min(4,(box[k]??0)+1) : 0;
+  LS.set('box', box);
+  S.idx++; S.shown=false;
+  if(S.idx>=S.queue.length){ S.queue=[]; }
+  render();
+}
+function reviewView(){
+  const pool = allWords().filter(w=>w.n<=upto);
+  const done = pool.filter(w=>(box[key(w.n,w.ko)]??0)>=3).length;
+  const seen = pool.filter(w=>box[key(w.n,w.ko)]!==undefined).length;
+  const pct = pool.length? Math.round(done/pool.length*100):0;
+
+  if(S.queue.length && S.idx<S.queue.length){
+    const w = S.queue[S.idx];
+    const front = S.dir==='ko2jp' ? `<div class="w ko">${esc(w.ko)}</div>` : `<div class="m">${esc(w.jp)}</div>`;
+    const back  = S.dir==='ko2jp'
+      ? `<div class="m">${esc(w.jp)}</div>`
+      : `<div class="w ko">${esc(w.ko)}</div>`;
+    const ex = w.ex? `<div class="ex"><div class="ko">${esc(w.ex.ko)}</div><div class="jp">${esc(w.ex.jp)}</div></div>`:'';
+    return `
+      <div class="bar"><i style="width:${Math.round(S.idx/S.queue.length*100)}%"></i></div>
+      <div style="color:var(--mid);font-size:.78rem;margin-bottom:10px">${S.idx+1} / ${S.queue.length}　第${w.n}課</div>
+      <div class="card q">
+        ${front}
+        <div class="${S.shown?'':'hidden'}">${back}${ex}</div>
+        ${S.shown?'':'<div class="tapnote">タップで答え</div>'}
+      </div>
+      ${S.shown
+        ? `<div class="row"><button class="btn again" data-a="0">まだ</button><button class="btn ok" data-a="1">わかった</button></div>`
+        : `<div class="row"><button class="btn primary" data-show="1">答えを見る</button></div>`}
+    `;
+  }
+  return `
+    <div class="stats">
+      <div class="stat"><b>${pool.length}</b><span>対象のことば</span></div>
+      <div class="stat"><b>${seen}</b><span>やった</span></div>
+      <div class="stat"><b>${done}</b><span>覚えた</span></div>
+    </div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div style="color:var(--mid);font-size:.78rem;margin-bottom:18px">${pct}% 覚えました</div>
+    <div class="toggle">
+      <button data-dir="ko2jp" aria-pressed="${S.dir==='ko2jp'}">韓国語 → 日本語</button>
+      <button data-dir="jp2ko" aria-pressed="${S.dir==='jp2ko'}">日本語 → 韓国語</button>
+    </div>
+    <label style="display:block;font-size:.82rem;color:var(--mid);margin:0 0 6px">いま学習中の課（ここまでを出題）</label>
+    <div class="picker" id="uptopick">${
+      S.data.lessons.map(l=>`<button data-upto="${l.n}" aria-pressed="${l.n===upto}">${l.n}</button>`).join('')
+    }</div>
+    <div class="row"><button class="btn primary" data-start="1">今日の10問をはじめる</button></div>
+    <div class="tapnote">まちがえたことばは、次に早く出てきます。3回続けて「わかった」で「覚えた」になります。</div>
+  `;
+}
+
+/* ---------- ことば ---------- */
+function wordsView(){
+  const l = S.data.lessons.find(x=>x.n===S.lesson);
+  return picker() + head(l) + `
+    <div class="toggle">
+      <button data-dir="ko2jp" aria-pressed="${S.dir==='ko2jp'}">韓国語から</button>
+      <button data-dir="jp2ko" aria-pressed="${S.dir==='jp2ko'}">日本語から</button>
+    </div>` +
+    l.vocab.map((w,i)=>{
+      const b = box[key(l.n,w.ko)] ?? 0;
+      const star = b>=3 ? '★' : '';
+      const a = S.dir==='ko2jp'
+        ? `<div class="w ko">${esc(w.ko)}${w.form?`<span class="pos">${esc(w.form)}</span>`:''}</div>`
+        : `<div class="m">${esc(w.jp)}</div>`;
+      const bk = S.dir==='ko2jp' ? `<div class="m">${esc(w.jp)}</div>` : `<div class="w ko">${esc(w.ko)}</div>`;
+      const ex = w.ex? `<div class="ex"><div class="ko">${esc(w.ex.ko)}</div><div class="jp">${esc(w.ex.jp)}</div></div>`:'';
+      return `<div class="card" data-card="${i}">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <div style="flex:1">${a}</div>
+          <div style="color:var(--mauve);font-size:.9rem">${star}</div>
+        </div>
+        <div class="hidden" data-back>${bk}${ex}</div>
+      </div>`;
+    }).join('') +
+    `<div class="tapnote">カードをタップすると、続きが出ます。</div>`;
+}
+
+/* ---------- 確認 ---------- */
+function checkView(){
+  const l = S.data.lessons.find(x=>x.n===S.lesson);
+  const g = l.grammar.map(x=>`<div class="card g">
+      <div class="form ko">${esc(x.form)}</div>
+      <div class="label">${esc(x.label)}</div>
+      ${x.say?`<div class="say">${esc(x.say)}</div>`:''}
+      <div class="ex">${x.ex.map(e=>`<div><span class="ko">${esc(e.ko)}</span><div class="jp">${esc(e.jp)}</div></div>`).join('')}</div>
+    </div>`).join('');
+  const p = l.pron.map(x=>`<div class="card p">
+      <div class="name">${esc(x.name)}</div>
+      <div class="how">${esc(x.how)}</div>
+      <div class="exs">${x.ex.map(e=>`<span class="ko">${esc(e.ko)}</span><span class="r">［${esc(e.read)}］</span>　`).join('')}</div>
+    </div>`).join('');
+  const d = l.dictation.map((x,i)=>`<div class="card d" data-card="d${i}">
+      <div class="blank ko">${esc(x.blank)}</div>
+      <div class="hidden" data-back><div class="ans ko">${esc(x.full)}</div></div>
+    </div>`).join('');
+  return picker() + head(l) +
+    `<div class="sec"><h2>文法ポイント</h2>${g}</div>` +
+    `<div class="sec"><h2>発音規則</h2>${p}</div>` +
+    `<div class="sec"><h2>書き取り（音声05）</h2>${d}
+       <div class="tapnote">カードをタップすると全文が出ます。</div></div>`;
+}
+
+function picker(){
+  return `<div class="picker" id="lessonpick">${
+    S.data.lessons.map(l=>`<button data-lesson="${l.n}" aria-pressed="${l.n===S.lesson}">${l.n}</button>`).join('')
+  }</div>`;
+}
+function head(l){
+  return `<div class="lessonhead">
+    <div class="t">第${l.n}課　${esc(l.title)}</div>
+    <div class="d"><span class="ko">${esc(l.dish_ko)}</span>（${esc(l.dish_jp)}）・${esc(l.type)}</div>
+    <a href="${esc(l.audio)}">音声を聞く ▸</a>
+  </div>`;
+}
+
+/* ---------- 画面 ---------- */
+function render(){
+  const v = document.getElementById('view');
+  v.innerHTML = S.tab==='review' ? reviewView() : S.tab==='words' ? wordsView() : checkView();
+  const cur = v.querySelector('[aria-pressed="true"][data-lesson], [aria-pressed="true"][data-upto]');
+  if(cur){                                   // 横スクロールだけ。縦は動かさない
+    const box = cur.parentElement;
+    box.scrollLeft = cur.offsetLeft - (box.clientWidth - cur.offsetWidth)/2;
+  }
+}
+
+document.addEventListener('click', e=>{
+  const t = e.target.closest('button, [data-card]');
+  if(!t) return;
+  if(t.dataset.tab){ S.tab=t.dataset.tab;
+    document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.tab===S.tab)));
+    render(); return; }
+  if(t.dataset.lesson){ S.lesson=+t.dataset.lesson; render(); return; }
+  if(t.dataset.upto){ upto=+t.dataset.upto; LS.set('upto',upto); render(); return; }
+  if(t.dataset.dir){ S.dir=t.dataset.dir; LS.set('dir',S.dir); render(); return; }
+  if(t.dataset.start){ buildQueue(); render(); return; }
+  if(t.dataset.show){ S.shown=true; render(); return; }
+  if(t.dataset.a){ answer(t.dataset.a==='1'); return; }
+  if(t.dataset.card!==undefined){
+    const b=t.querySelector('[data-back]'); if(b) b.classList.toggle('hidden'); return; }
+  if(t.closest('.card.q')){ S.shown=true; render(); return; }
+});
+
+fetch('data.json').then(r=>r.json()).then(d=>{
+  S.data=d; S.dir=LS.get('dir','ko2jp');
+  const [ko, jp] = (d.short || d.title).split('（');
+  document.getElementById('apptitle').textContent = ko.trim();
+  document.getElementById('appsub').textContent =
+    (jp ? jp.replace('）','') + '　' : '') +
+    `ことば${d.counts.vocab}・文法${d.counts.grammar}・書き取り${d.counts.dictation}`;
+  render();
+}).catch(()=>{
+  document.getElementById('view').innerHTML =
+    '<div class="empty">データを読み込めませんでした。<br>通信状態をご確認ください。</div>';
+});
+</script>
+</body>
+</html>
