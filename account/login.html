@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>ログイン｜白海燕の教材アプリ</title>
+<style>
+  :root {
+    --sky: #7BBFEA; --sky-deep: #4A9ED6; --sakura-deep: #D87DA8;
+    --ink: #1d1d1f; --sub: #6e6e73; --muted: #86868b;
+    --bg: #f5f5f7; --card: #fff; --line: rgba(0,0,0,0.1); --bad: #c0392b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.7; font-size: 16px;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card { width: 100%; max-width: 420px; background: var(--card); border-radius: 20px; padding: 36px 28px 28px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .brand { font-size: 13px; font-weight: 600; color: var(--sky-deep); letter-spacing: .04em; }
+  h1 { font-size: 24px; letter-spacing: -.02em; line-height: 1.35; margin: 6px 0 10px; }
+  .lead { font-size: 14px; color: var(--sub); }
+  .step[hidden] { display: none; }
+  .google {
+    margin-top: 24px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+    font: inherit; font-size: 15px; font-weight: 600; color: var(--ink); background: #fff;
+    border: 1px solid var(--line); border-radius: 12px; padding: 13px 16px; cursor: pointer;
+  }
+  .google:hover { background: #fafafa; }
+  .google svg { width: 20px; height: 20px; }
+  form { margin-top: 20px; display: grid; gap: 16px; }
+  label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--sub); }
+  label .req { color: var(--sakura-deep); font-weight: 600; margin-left: 4px; }
+  input {
+    font: inherit; font-size: 16px; color: var(--ink); background: #fff;
+    border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%;
+  }
+  input:focus { outline: 2px solid var(--sky); outline-offset: 1px; border-color: transparent; }
+  input[readonly] { background: var(--bg); color: var(--sub); }
+  .primary {
+    font: inherit; font-size: 15px; font-weight: 600; color: #fff; background: var(--ink);
+    border: 0; border-radius: 12px; padding: 13px 16px; cursor: pointer; margin-top: 4px;
+  }
+  .primary:disabled { opacity: .5; cursor: default; }
+  .note { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .err { font-size: 13px; color: var(--bad); margin-top: 14px; }
+  .err:empty { display: none; }
+  .links { margin-top: 22px; display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+  .links a, .links button { color: var(--sky-deep); text-decoration: none; background: none; border: 0; font: inherit; cursor: pointer; padding: 0; }
+  .who { margin-top: 18px; font-size: 14px; background: var(--bg); border-radius: 12px; padding: 12px 14px; }
+  .who dt { font-size: 12px; color: var(--muted); }
+  .who dd { margin-bottom: 6px; word-break: break-all; }
+  .who dd:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+<main class="card">
+  <p class="brand">白海燕の教材アプリ</p>
+
+  <section class="step" id="step-loading">
+    <h1>確認しています…</h1>
+  </section>
+
+  <section class="step" id="step-off" hidden>
+    <h1>ログインは準備中です</h1>
+    <p class="lead">現在はログインなしでご利用いただけます。</p>
+    <div class="links"><a class="next-link" href="../">アプリへ進む ›</a></div>
+  </section>
+
+  <section class="step" id="step-signin" hidden>
+    <h1>ログインしてください</h1>
+    <p class="lead">教科書と連動した音声・練習アプリは、登録した方のみご利用いただけます。Googleアカウントでログインし、初回のみお名前とご所属を登録してください。</p>
+    <button class="google" id="google" type="button">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+      Googleでログイン
+    </button>
+    <p class="err" id="signin-err"></p>
+  </section>
+
+  <section class="step" id="step-profile" hidden>
+    <h1>利用者登録</h1>
+    <p class="lead">初回のみ、次の項目をご登録ください。すべて必須です。</p>
+    <form id="profile-form" novalidate>
+      <label><span>メールアドレス<span class="req">必須</span></span>
+        <input id="f-email" type="email" readonly>
+      </label>
+      <label><span>氏名（実名）<span class="req">必須</span></span>
+        <input id="f-name" type="text" autocomplete="name" maxlength="100" required placeholder="例：山田 花子">
+      </label>
+      <label><span>所属<span class="req">必須</span></span>
+        <input id="f-aff" type="text" autocomplete="organization" maxlength="200" required placeholder="例：〇〇大学 外国語学部">
+      </label>
+      <p class="note">ご登録いただいた情報は、教材の利用者管理とご連絡のためにのみ使用し、第三者に提供することはありません。</p>
+      <button class="primary" id="save" type="submit">登録してアプリへ進む</button>
+    </form>
+    <p class="err" id="profile-err"></p>
+    <div class="links"><button type="button" class="signout">別のアカウントでログイン</button></div>
+  </section>
+
+  <section class="step" id="step-account" hidden>
+    <h1>ログイン中です</h1>
+    <dl class="who">
+      <dt>メールアドレス</dt><dd id="a-email"></dd>
+      <dt>氏名</dt><dd id="a-name"></dd>
+      <dt>所属</dt><dd id="a-aff"></dd>
+    </dl>
+    <div class="links">
+      <a class="next-link" href="../">アプリへ進む ›</a>
+      <button type="button" class="signout">ログアウト</button>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { enabled, currentUser, getProfile, saveProfile, signInWithGoogle, signOut } from "./auth.js";
+
+const $ = (id) => document.getElementById(id);
+const show = (id) => document.querySelectorAll(".step").forEach((s) => (s.hidden = s.id !== id));
+
+// 戻り先は同じサイト内のページに限る
+const params = new URLSearchParams(location.search);
+const fallback = new URL("../", location.href).href;
+const next = (() => {
+  try {
+    const u = new URL(params.get("next") || fallback, location.href);
+    return u.origin === location.origin && !u.pathname.endsWith("/account/login.html") ? u.href : fallback;
+  } catch { return fallback; }
+})();
+document.querySelectorAll(".next-link").forEach((a) => (a.href = next));
+const goNext = () => location.replace(next);
+
+const MESSAGES = {
+  "auth/popup-closed-by-user": "ログインがキャンセルされました。もう一度お試しください。",
+  "auth/cancelled-popup-request": "ログインがキャンセルされました。もう一度お試しください。",
+  "auth/network-request-failed": "通信エラーが発生しました。通信状況を確認してください。",
+  "auth/unauthorized-domain": "このページのドメインがFirebaseに登録されていません（管理者向け：承認済みドメインを確認してください）。",
+  "permission-denied": "登録できませんでした（管理者向け：Firestoreのルールを確認してください）。",
+};
+const message = (e) => MESSAGES[e && e.code] || "エラーが発生しました。時間をおいてもう一度お試しください。";
+
+async function route() {
+  const user = await currentUser();
+  if (!user) return show("step-signin");
+  const profile = await getProfile(user);
+  if (!profile || !profile.name || !profile.affiliation) {
+    $("f-email").value = user.email || "";
+    $("f-name").value = (profile && profile.name) || user.displayName || "";
+    $("f-aff").value = (profile && profile.affiliation) || "";
+    show("step-profile");
+    return;
+  }
+  if (params.has("account")) {
+    $("a-email").textContent = user.email;
+    $("a-name").textContent = profile.name;
+    $("a-aff").textContent = profile.affiliation;
+    return show("step-account");
+  }
+  goNext();
+}
+
+$("google").addEventListener("click", async () => {
+  $("signin-err").textContent = "";
+  $("google").disabled = true;
+  try {
+    const user = await signInWithGoogle();
+    if (user) await route();
+  } catch (e) {
+    console.error(e);
+    $("signin-err").textContent = message(e);
+  } finally {
+    $("google").disabled = false;
+  }
+});
+
+$("profile-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const name = $("f-name").value.trim();
+  const affiliation = $("f-aff").value.trim();
+  if (!name || !affiliation) {
+    $("profile-err").textContent = "氏名と所属を入力してください。";
+    (name ? $("f-aff") : $("f-name")).focus();
+    return;
+  }
+  $("profile-err").textContent = "";
+  $("save").disabled = true;
+  try {
+    await saveProfile(await currentUser(), { name, affiliation });
+    goNext();
+  } catch (e) {
+    console.error(e);
+    $("profile-err").textContent = message(e);
+    $("save").disabled = false;
+  }
+});
+
+document.querySelectorAll(".signout").forEach((b) =>
+  b.addEventListener("click", async () => {
+    await signOut();
+    show("step-signin");
+  })
+);
+
+if (!enabled) {
+  show("step-off");
+} else {
+  route().catch((e) => {
+    console.error(e);
+    show("step-signin");
+    $("signin-err").textContent = message(e);
+  });
+}
+</script>
+</body>
+</html>
