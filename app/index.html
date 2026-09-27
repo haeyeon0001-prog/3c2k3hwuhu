@@ -10,7 +10,8 @@
 <meta name="referrer" content="no-referrer">
 <title>韓国語 料理編 復習</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#8C3A5E">
+<meta name="theme-color" content="#654780">
+<link rel="stylesheet" href="practice.css?v=20260928">
 <style>
 :root{
   --ink:#39383E; --mid:#6E6670; --line:#EBDDE4;
@@ -107,7 +108,8 @@ nav button i{display:block;font-size:1.25rem;font-style:normal;margin-bottom:2px
   <div class="sub" id="appsub">復習と確認</div>
 </header>
 <main id="view"><div class="empty">読み込み中…</div></main>
-<nav>
+<nav aria-label="学習メニュー">
+  <button data-tab="practice" aria-pressed="false"><i>✎</i>練習</button>
   <button data-tab="review" aria-pressed="true"><i>↻</i>復習</button>
   <button data-tab="words" aria-pressed="false"><i>あ</i>ことば</button>
   <button data-tab="check" aria-pressed="false"><i>✓</i>確認</button>
@@ -115,7 +117,7 @@ nav button i{display:block;font-size:1.25rem;font-style:normal;margin-bottom:2px
 
 <script>
 const S = {
-  data:null, tab:'review', lesson:1, dir:'ko2jp',
+  data:null, tab:'practice', lesson:1, dir:'ko2jp',
   queue:[], idx:0, shown:false
 };
 const LS = {
@@ -226,7 +228,7 @@ function checkView(){
   const g = l.grammar.map(x=>`<div class="card g">
       <div class="form ko">${esc(x.form)}</div>
       <div class="label">${esc(x.label)}</div>
-      ${x.say?`<div class="say">${esc(x.say)}</div>`:''}
+      ${x.body?`<div class="say">${esc(x.body).replace(/\n/g,"<br>")}</div>`:x.say?`<div class="say">${esc(x.say)}</div>`:""}
       <div class="ex">${x.ex.map(e=>`<div><span class="ko">${esc(e.ko)}</span><div class="jp">${esc(e.jp)}</div></div>`).join('')}</div>
     </div>`).join('');
   const p = l.pron.map(x=>`<div class="card p">
@@ -261,7 +263,7 @@ function head(l){
 /* ---------- 画面 ---------- */
 function render(){
   const v = document.getElementById('view');
-  v.innerHTML = S.tab==='review' ? reviewView() : S.tab==='words' ? wordsView() : checkView();
+  v.innerHTML = S.tab==='practice' ? practiceView() : S.tab==='review' ? reviewView() : S.tab==='words' ? wordsView() : checkView();
   const cur = v.querySelector('[aria-pressed="true"][data-lesson], [aria-pressed="true"][data-upto]');
   if(cur){                                   // 横スクロールだけ。縦は動かさない
     const box = cur.parentElement;
@@ -271,7 +273,7 @@ function render(){
 
 document.addEventListener('click', e=>{
   const t = e.target.closest('button, [data-card]');
-  if(!t) return;
+  if(!t || !S.data) return;
   if(t.dataset.tab){ S.tab=t.dataset.tab;
     document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.tab===S.tab)));
     render(); return; }
@@ -286,8 +288,11 @@ document.addEventListener('click', e=>{
   if(t.closest('.card.q')){ S.shown=true; render(); return; }
 });
 
-fetch('data.json').then(r=>r.json()).then(d=>{
+window.addEventListener('load',()=>{
+fetch('data.json?v=20260928-practice').then(r=>{if(!r.ok)throw new Error('data');return r}).then(r=>r.json()).then(d=>{
   S.data=d; S.dir=LS.get('dir','ko2jp');
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.tab===S.tab)));
+  initPractice();
   const [ko, jp] = (d.short || d.title).split('（');
   document.getElementById('apptitle').textContent = ko.trim();
   document.getElementById('appsub').textContent =
@@ -298,6 +303,8 @@ fetch('data.json').then(r=>r.json()).then(d=>{
   document.getElementById('view').innerHTML =
     '<div class="empty">データを読み込めませんでした。<br>通信状態をご確認ください。</div>';
 });
+});
 </script>
+<script src="practice.js?v=20260928"></script>
 </body>
 </html>
